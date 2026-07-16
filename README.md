@@ -1,2 +1,13 @@
-# Face-Recognition-Attendance-System
-An AI-powered Face Recognition Attendance System built with Python, OpenCV, MTCNN, FaceNet, TensorFlow, Flask, HTML, CSS, JavaScript, and MySQL to automatically recognize registered users and record attendance.
+# Face Recognition Attendance System
+
+An AI-based attendance system using Face Recognition.
+
+## Technologies Used
+- Python
+- OpenCV
+- MTCNN
+- FaceNet
+- Scikit-learn
+- Streamlit
+
+Developer: Mayank Sharma

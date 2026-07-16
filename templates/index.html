@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- ============================= -->
+    <!-- BASIC PAGE SETTINGS -->
+    <!-- ============================= -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Face Recognition Attendance Management System"
+    >
+
+
+    <!-- ============================= -->
+    <!-- PAGE TITLE -->
+    <!-- ============================= -->
+
+    <title>
+        Face Recognition Attendance System
+    </title>
+
+
+    <!-- ============================= -->
+    <!-- CSS FILE CONNECTION -->
+    <!-- ============================= -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ===================================== -->
+<!-- SIDEBAR -->
+<!-- ===================================== -->
+
+<div class="sidebar">
+
+
+    <!-- Logo -->
+
+    <div class="logo">
+
+        Face<span>Track</span>
+
+    </div>
+
+
+
+    <!-- Dashboard -->
+
+    <a
+        href="/"
+        class="active"
+    >
+
+        🏠 Dashboard
+
+    </a>
+
+
+
+    <!-- Register Student -->
+
+    <a
+        href="/register"
+    >
+
+        👤 Register Student
+
+    </a>
+
+
+
+    <!-- Take Attendance -->
+
+    <a
+        href="/attendance"
+    >
+
+        📷 Take Attendance
+
+    </a>
+
+
+
+    <!-- Students -->
+
+    <a
+        href="/students"
+    >
+
+        👥 Students
+
+    </a>
+
+
+
+    <!-- Attendance Records -->
+
+    <a
+        href="/records"
+    >
+
+        📋 Attendance Records
+
+    </a>
+
+
+
+    <!-- Reports -->
+
+    <a
+        href="/reports"
+    >
+
+        📊 Reports
+
+    </a>
+
+
+</div>
+
+
+
+<!-- ===================================== -->
+<!-- MAIN CONTENT -->
+<!-- ===================================== -->
+
+<div class="main">
+
+
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
+
+    <div class="header">
+
+
+        <div>
+
+            <h1>
+                Face Recognition Attendance System
+            </h1>
+
+            <p>
+                Smart AI-Based Student Attendance Management
+            </p>
+
+            <!-- Live Date & Time -->
+
+            <p id="dateTime">
+
+            </p>
+
+        </div>
+
+
+
+        <!-- Admin Profile -->
+
+        <div class="admin">
+
+            👨‍💼 Admin
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================= -->
+    <!-- DASHBOARD STATISTICS -->
+    <!-- ================================= -->
+
+    <div class="cards">
+
+
+        <!-- Total Students -->
+
+        <div class="card">
+
+            <h3>
+
+                👥 TOTAL STUDENTS
+
+            </h3>
+
+            <h2>
+
+                {{ total_students | default(0) }}
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- Present Today -->
+
+        <div class="card">
+
+            <h3>
+
+                ✅ PRESENT TODAY
+
+            </h3>
+
+            <h2>
+
+                {{ present_today | default(0) }}
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- Absent Today -->
+
+        <div class="card">
+
+            <h3>
+
+                ❌ ABSENT TODAY
+
+            </h3>
+
+            <h2>
+
+                {{ absent_today | default(0) }}
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- Attendance Percentage -->
+
+        <div class="card">
+
+            <h3>
+
+                📊 ATTENDANCE RATE
+
+            </h3>
+
+            <h2>
+
+                {{ attendance_rate | default(0) }}%
+
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================= -->
+    <!-- QUICK ACTIONS -->
+    <!-- ================================= -->
+
+    <div class="actions">
+
+
+        <!-- Register Student -->
+
+        <div class="action-card">
+
+            <h3>
+
+                👤 Register Student
+
+            </h3>
+
+
+            <p>
+
+                Register a new student and
+                capture face images for
+                Face Recognition.
+
+            </p>
+
+
+            <a
+                href="/register"
+                class="btn"
+            >
+
+                Register Student
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- Take Attendance -->
+
+        <div class="action-card">
+
+            <h3>
+
+                📷 Take Attendance
+
+            </h3>
+
+
+            <p>
+
+                Start the camera and
+                automatically recognize
+                registered students.
+
+            </p>
+
+
+            <button
+                class="btn green"
+                onclick="startAttendance()"
+            >
+
+                Start Attendance
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- View Records -->
+
+        <div class="action-card">
+
+            <h3>
+
+                📋 Attendance Records
+
+            </h3>
+
+
+            <p>
+
+                View daily student
+                attendance records and
+                attendance history.
+
+            </p>
+
+
+            <a
+                href="/records"
+                class="btn"
+            >
+
+                View Records
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================= -->
+    <!-- RECENT ATTENDANCE -->
+    <!-- ================================= -->
+
+    <div class="table-container">
+
+
+        <h2>
+
+            Recent Attendance
+
+        </h2>
+
+
+
+        <!-- Search Box -->
+
+        <div
+            style="
+            margin-bottom:20px;
+            "
+        >
+
+            <input
+
+                type="text"
+
+                id="searchInput"
+
+                placeholder="Search student by name or ID..."
+
+                onkeyup="searchAttendance()"
+
+                style="
+                width:300px;
+                padding:10px;
+                border:1px solid #ddd;
+                border-radius:6px;
+                "
+
+            >
+
+        </div>
+
+
+
+        <!-- Attendance Table -->
+
+        <table
+            id="attendanceTable"
+        >
+
+
+            <!-- Table Header -->
+
+            <thead>
+
+
+                <tr>
+
+                    <th>
+                        Student ID
+                    </th>
+
+
+                    <th>
+                        Name
+                    </th>
+
+
+                    <th>
+                        Date
+                    </th>
+
+
+                    <th>
+                        Time
+                    </th>
+
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+
+            </thead>
+
+
+
+            <!-- Table Body -->
+
+            <tbody>
+
+
+            <!-- Flask Attendance Data -->
+
+
+            {% if recent_attendance %}
+
+
+                {% for student in recent_attendance %}
+
+
+                <tr>
+
+
+                    <!-- Student ID -->
+
+                    <td>
+
+                        {{ student.id }}
+
+                    </td>
+
+
+
+                    <!-- Student Name -->
+
+                    <td>
+
+                        {{ student.name }}
+
+                    </td>
+
+
+
+                    <!-- Attendance Date -->
+
+                    <td>
+
+                        {{ student.date }}
+
+                    </td>
+
+
+
+                    <!-- Attendance Time -->
+
+                    <td>
+
+                        {{ student.time }}
+
+                    </td>
+
+
+
+                    <!-- Attendance Status -->
+
+                    <td>
+
+
+                        <span class="present">
+
+                            Present
+
+                        </span>
+
+
+                    </td>
+
+
+                </tr>
+
+
+                {% endfor %}
+
+
+
+            {% else %}
+
+
+
+                <!-- No Attendance Data -->
+
+
+                <tr>
+
+
+                    <td
+                        colspan="5"
+
+                        style="
+                        text-align:center;
+                        padding:30px;
+                        color:#6b7280;
+                        "
+                    >
+
+
+                        No attendance records found.
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+            {% endif %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+
+    <!-- ================================= -->
+    <!-- FOOTER -->
+    <!-- ================================= -->
+
+
+    <div
+
+        style="
+        text-align:center;
+        margin-top:30px;
+        color:#6b7280;
+        font-size:13px;
+        "
+
+    >
+
+
+        <p>
+
+            Face Recognition Attendance System
+
+        </p>
+
+
+        <p>
+
+            Powered by Python • OpenCV • MTCNN • FaceNet
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ===================================== -->
+<!-- JAVASCRIPT FILE CONNECTION -->
+<!-- ===================================== -->
+
+
+<script
+
+    src="{{ url_for('static', filename='js/script.js') }}">
+
+</script>
+
+
+</body>
+
+
+</html>
