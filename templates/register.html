@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Student</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        Face<span>Track</span>
+    </div>
+
+    <a href="/">🏠 Dashboard</a>
+
+    <a href="/register" class="active">
+        👤 Register Student
+    </a>
+
+    <a href="/attendance">
+        📷 Take Attendance
+    </a>
+
+    <a href="/students">
+        👥 Students
+    </a>
+
+    <a href="/records">
+        📋 Attendance Records
+    </a>
+
+    <a href="/reports">
+        📊 Reports
+    </a>
+
+</div>
+
+
+<div class="main">
+
+    <div class="header">
+
+        <div>
+            <h1>Register Student</h1>
+            <p>Add a new student to the Face Recognition System</p>
+        </div>
+
+        <div class="admin">
+            👨‍💼 Admin
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <h2>Student Registration</h2>
+
+        <form method="POST" action="/register">
+
+            <div style="margin-bottom: 20px;">
+
+                <label>Student Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter Student Name"
+                    required
+                    style="width:100%; padding:12px; margin-top:8px;"
+                >
+
+            </div>
+
+
+            <div style="margin-bottom: 20px;">
+
+                <label>Student ID / Roll Number</label>
+
+                <input
+                    type="text"
+                    name="student_id"
+                    placeholder="Enter Student ID"
+                    required
+                    style="width:100%; padding:12px; margin-top:8px;"
+                >
+
+            </div>
+
+
+            <div style="margin-bottom: 20px;">
+
+                <label>Course</label>
+
+                <input
+                    type="text"
+                    name="course"
+                    placeholder="Example: BCA"
+                    required
+                    style="width:100%; padding:12px; margin-top:8px;"
+                >
+
+            </div>
+
+
+            <div style="margin-bottom: 20px;">
+
+                <label>Semester</label>
+
+                <select
+                    name="semester"
+                    required
+                    style="width:100%; padding:12px; margin-top:8px;"
+                >
+
+                    <option value="">Select Semester</option>
+                    <option>1st Semester</option>
+                    <option>2nd Semester</option>
+                    <option>3rd Semester</option>
+                    <option>4th Semester</option>
+                    <option>5th Semester</option>
+                    <option>6th Semester</option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn green"
+            >
+                Register & Capture Face
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
